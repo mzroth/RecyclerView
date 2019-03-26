@@ -5,6 +5,6 @@ import android.view.View
 import android.widget.TextView
 
 class ListSelectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val listPosition = itemView.findViewById<TextView>(R.id.item_number) as TextView
-    val listTitle: TextView = itemView.findViewById<TextView>(R.id.item_string)
+    val listPosition: TextView = itemView.findViewById(R.id.item_number)
+    val listTitle: TextView = itemView.findViewById(R.id.item_string)
 }
