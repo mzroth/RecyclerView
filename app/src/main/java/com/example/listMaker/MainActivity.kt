@@ -1,5 +1,6 @@
 package com.example.listMaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
@@ -17,6 +18,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var listRecyclerView: RecyclerView
+    val listDataManager = ListDataManager(this)
+
+    companion object {
+        val INTENT_LIST_KEY = "list"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +33,11 @@ class MainActivity : AppCompatActivity() {
             showCreateListDialog()
         }
 
+        val lists = listDataManager.readLists()
         listRecyclerView = findViewById<RecyclerView>(R.id.list_recyclcerview)
         listRecyclerView.layoutManager = LinearLayoutManager(this)
-        listRecyclerView.adapter = ListSelectionRecyclerViewAdapter()
+        listRecyclerView.adapter = ListSelectionRecyclerViewAdapter(lists)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -55,8 +63,18 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle(getString(R.string.name_of_list))
         builder.setView(listTitleEditText)
         builder.setPositiveButton(getString(R.string.create_list)) { dialog, _ ->
+            val list = TaskList(listTitleEditText.text.toString())
+            listDataManager.saveList(list)
+            val recyclerAdapter = listRecyclerView.adapter as ListSelectionRecyclerViewAdapter
+            recyclerAdapter.addList(list)
             dialog.dismiss()
         }
         builder.create().show()
+    }
+
+    private fun showListDetail(list: TaskList) {
+        val listDetailIntent = Intent(this, ListDetailActivity::class.java)
+        listDetailIntent.putExtra(INTENT_LIST_KEY, list)
+        startActivity(listDetailIntent)
     }
 }
