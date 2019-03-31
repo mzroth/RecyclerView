@@ -2,11 +2,13 @@ package com.example.listMaker
 
 import android.os.Parcel
 import android.os.Parcelable
-import javax.xml.transform.Source
 
 class TaskList(val name: String, val tasks: ArrayList<String> = ArrayList()): Parcelable {
 
-    constructor(source: Parcel) : this(source.readString(), source.createStringArrayList())
+    constructor(source: Parcel) : this(
+        source.readString() ?: "",
+        source.createStringArrayList() ?: arrayListOf()
+    )
 
     override fun describeContents(): Int = 0
 

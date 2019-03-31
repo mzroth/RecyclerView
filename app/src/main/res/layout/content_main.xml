@@ -9,9 +9,9 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" tools:layout_editor_absoluteX="7dp"
-            tools:layout_editor_absoluteY="8dp" android:id="@+id/list_recyclcerview"/>
+            android:layout_height="match_parent"></FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
